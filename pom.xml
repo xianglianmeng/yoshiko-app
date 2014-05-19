@@ -5,130 +5,27 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<properties>
-		<bundle.symbolicName>org.cytoscape.yoshiko</bundle.symbolicName>
-		<bundle.namespace>com.badlyby.yoshiko.internal</bundle.namespace>
-		<cytoscape.api.version>3.0.2</cytoscape.api.version>
-		<cytoscape.impl.version>3.0.2</cytoscape.impl.version>
+		<bundle.symbolicName>yoshiko</bundle.symbolicName>
+		<bundle.namespace>org.cytoscape.yoshiko.internal</bundle.namespace>
+		<cytoscape.api.version>3.0.0</cytoscape.api.version>
 		<maven-bundle-plugin.version>2.3.4</maven-bundle-plugin.version>
-		<maven.build.timestamp.format>MMMM yyyy</maven.build.timestamp.format>
-		<buildDate>${maven.build.timestamp}</buildDate>
+		<osgi.api.version>4.2.0</osgi.api.version>
 	</properties>
 
 	<groupId>org.cytoscape.yoshiko</groupId>
 	<artifactId>yoshiko-app</artifactId>
-	<name>YOSHIKO</name>
 	<packaging>bundle</packaging>
+	<name>yoshiko</name>
+	
 	<version>1.0.0</version>
-
-	<build>
-		<resources>
-			<resource>
-				<directory>src/main/resources</directory>
-				<filtering>true</filtering>
-				<includes>
-					<include>**/*.properties</include>
-				</includes>
-			</resource>
-			<resource>
-				<directory>src/main/resources</directory>
-				<filtering>false</filtering>
-				<excludes>
-					<exclude>**/*.properties</exclude>
-				</excludes>
-			</resource>
-		</resources>
-
-		<plugins>
-			<plugin>
-				<inherited>true</inherited>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<configuration>
-					<optimize>true</optimize>
-					<showWarnings>true</showWarnings>
-					<showDeprecation>true</showDeprecation>
-					<compilerArguments>
-						<Xmaxwarns>10000</Xmaxwarns>
-						<Xmaxerrs>10000</Xmaxerrs>
-					</compilerArguments>
-				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-surefire-plugin</artifactId>
-				<version>2.12.3</version>
-				<configuration>
-					<redirectTestOutputToFile>true</redirectTestOutputToFile>
-				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>org.ops4j</groupId>
-				<artifactId>maven-pax-plugin</artifactId>
-				<version>1.5</version>
-				<extensions>true</extensions>
-			</plugin>
-			<!-- Generates the OSGi metadata based on the osgi.bnd file. -->
-			<plugin>
-				<groupId>org.apache.felix</groupId>
-				<artifactId>maven-bundle-plugin</artifactId>
-				<version>2.3.4</version>
-				<configuration>
-					<instructions>
-						<Bundle-SymbolicName>${bundle.symbolicName}</Bundle-SymbolicName>
-						<Bundle-Version>${project.version}</Bundle-Version>
-						<_include>-osgi.bnd</_include>
-					</instructions>
-				</configuration>
-			</plugin>
-		</plugins>
-		
-		<pluginManagement>
-			<plugins>
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-compiler-plugin</artifactId>
-					<version>3.0</version>
-					<configuration>
-						<source>1.6</source>
-						<target>1.6</target>
-					</configuration>
-				</plugin>
-				<!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven build itself.-->
-				<plugin>
-					<groupId>org.eclipse.m2e</groupId>
-					<artifactId>lifecycle-mapping</artifactId>
-					<version>1.0.0</version>
-					<configuration>
-						<lifecycleMappingMetadata>
-							<pluginExecutions>
-								<pluginExecution>
-									<pluginExecutionFilter>
-										<groupId>org.ops4j</groupId>
-										<artifactId>
-											maven-pax-plugin
-										</artifactId>
-										<versionRange>
-											[1.5,)
-										</versionRange>
-										<goals>
-											<goal>compile</goal>
-											<goal>testCompile</goal>
-										</goals>
-									</pluginExecutionFilter>
-									<action>
-										<ignore></ignore>
-									</action>
-								</pluginExecution>
-							</pluginExecutions>
-						</lifecycleMappingMetadata>
-					</configuration>
-				</plugin>
-			</plugins>
-		</pluginManagement>
-	</build>
 
 	<!-- Links to the Cytoscape Maven repositories. -->
 	<repositories>
+		<repository>
+			<id>custom_rep</id>
+			<name>Custom Repository</name>
+			<url>file://${project.basedir}/lib</url>
+		</repository>
 		<repository>
 			<id>cytoscape_snapshots</id>
 			<snapshots>
@@ -153,36 +50,54 @@
 		</repository>
 	</repositories>
 
+
+	<build>
+		<resources>
+			<resource>
+				<directory>src/main/resources</directory>
+				<filtering>true</filtering>
+				<includes>
+					<include>**/*.properties</include>
+				</includes>
+			</resource>
+			<resource>
+				<directory>src/main/resources</directory>
+				<filtering>false</filtering>
+				<excludes>
+					<exclude>**/*.properties</exclude>
+				</excludes>
+			</resource>
+		</resources>
+
+		<plugins>
+			<plugin>
+				<groupId>org.apache.felix</groupId>
+				<artifactId>maven-bundle-plugin</artifactId>
+				<version>${maven-bundle-plugin.version}</version>
+				<extensions>true</extensions>
+				<configuration>
+					<instructions>
+						<Bundle-SymbolicName>${bundle.symbolicName}</Bundle-SymbolicName>
+						<Bundle-Version>${project.version}</Bundle-Version>
+						<Export-Package>!${bundle.namespace}.*</Export-Package>
+						<Private-Package>${bundle.namespace}.*</Private-Package>
+						<Bundle-Activator>${bundle.namespace}.CyActivator</Bundle-Activator>
+
+						<!-- embed all compile and runtime scope dependencies -->
+						<Embed-Dependency>
+							jgrapht-jdk1.5;groupId=org.jgrapht;inline=true,
+							opencsv;groupId=net.sf.opencsv;inline=true
+						</Embed-Dependency>
+						<Import-Package>*;resolution:=optional</Import-Package>
+					</instructions>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+
+
 	<!-- Dependencies needed to compile this project. -->
 	<dependencies>
-		<!-- OSGI -->
-		<dependency>
-			<groupId>org.osgi</groupId>
-			<artifactId>org.osgi.core</artifactId>
-			<version>4.2.0</version>
-		</dependency>
-	
-		<!-- Cytoscape -->
-		<dependency>
-			<groupId>org.cytoscape</groupId>
-			<artifactId>io-impl</artifactId>
-			<version>${cytoscape.api.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.cytoscape</groupId>
-			<artifactId>application-api</artifactId>
-			<version>${cytoscape.api.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.cytoscape</groupId>
-			<artifactId>model-api</artifactId>
-			<version>${cytoscape.api.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.cytoscape</groupId>
-			<artifactId>viewmodel-api</artifactId>
-			<version>${cytoscape.api.version}</version>
-		</dependency>
 		<dependency>
 			<groupId>org.cytoscape</groupId>
 			<artifactId>swing-application-api</artifactId>
@@ -190,17 +105,12 @@
 		</dependency>
 		<dependency>
 			<groupId>org.cytoscape</groupId>
-			<artifactId>session-api</artifactId>
+			<artifactId>group-api</artifactId>
 			<version>${cytoscape.api.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.cytoscape</groupId>
-			<artifactId>swing-util-api</artifactId>
-			<version>${cytoscape.api.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.cytoscape</groupId>
-			<artifactId>vizmap-api</artifactId>
+			<artifactId>work-api</artifactId>
 			<version>${cytoscape.api.version}</version>
 		</dependency>
 		<dependency>
@@ -210,63 +120,27 @@
 		</dependency>
 		<dependency>
 			<groupId>org.cytoscape</groupId>
-			<artifactId>layout-api</artifactId>
+			<artifactId>swing-app-api</artifactId>
 			<version>${cytoscape.api.version}</version>
 		</dependency>
 
-		<!-- Logging -->
 		<dependency>
-			<groupId>org.ops4j.pax.logging</groupId>
-			<artifactId>pax-logging-api</artifactId>
-			<version>1.5.2</version>
-			<scope>provided</scope>
-		</dependency>
-
-		<!-- Unit Testing -->
-		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<version>4.8.2</version>
-			<scope>test</scope>
+			<groupId>org.osgi</groupId>
+			<artifactId>org.osgi.core</artifactId>
+			<version>${osgi.api.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>org.mockito</groupId>
-			<artifactId>mockito-all</artifactId>
-			<version>1.9.0</version>
+			<groupId>org.jgrapht</groupId>
+			<artifactId>jgrapht-jdk1.5</artifactId>
+			<version>0.7.3</version>
 		</dependency>
 		<dependency>
-			<groupId>org.cytoscape</groupId>
-			<artifactId>event-api</artifactId>
-			<version>${cytoscape.api.version}</version>
-			<type>test-jar</type>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.cytoscape</groupId>
-			<artifactId>model-impl</artifactId>
-			<version>${cytoscape.impl.version}</version>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.cytoscape</groupId>
-			<artifactId>model-impl</artifactId>
-			<version>${cytoscape.impl.version}</version>
-			<type>test-jar</type>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.cytoscape</groupId>
-			<artifactId>ding-presentation-impl</artifactId>
-			<version>${cytoscape.impl.version}</version>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.cytoscape</groupId>
-			<artifactId>ding-presentation-impl</artifactId>
-			<version>${cytoscape.impl.version}</version>
-			<type>test-jar</type>
-			<scope>test</scope>
+			<groupId>net.sf.opencsv</groupId>
+			<artifactId>opencsv</artifactId>
+			<version>2.3</version>
 		</dependency>
 	</dependencies>
 
+	
+	<description>Bla</description>
 </project>
