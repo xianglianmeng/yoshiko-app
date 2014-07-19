@@ -83,11 +83,39 @@ public class YoshikoCurrentParameters {
 		//cannot simply equate the params and newParams classes since that creates a permanent reference
 		//and prevents us from keeping 2 sets of the class such that the saved version is not altered
 		//until this method is called
-		YoshikoParameterSet currentParamSet = new YoshikoParameterSet(newParams.getPath());
+		YoshikoParameterSet currentParamSet = new YoshikoParameterSet(newParams.getconnectType(),
+																	newParams.getCMDLinePath(),
+																	newParams.getSocketAddress(),
+																	newParams.getSocketPort(),
+																	newParams.getutilize(),
+																	newParams.getcpulimit(),
+																	newParams.getexport(),
+																	newParams.getgraph(),
+																	newParams.getmultiplicative(),
+																	newParams.getnumber(),
+																	newParams.getrules(),
+																	newParams.getcuts(),
+																	newParams.gettriangles(),
+																	newParams.getthreads(),
+																	newParams.getverbosity());
 
 		currentParams.put(networkID, currentParamSet);
 
-		YoshikoParameterSet resultParamSet = new YoshikoParameterSet(newParams.getPath());
+		YoshikoParameterSet resultParamSet = new YoshikoParameterSet(newParams.getconnectType(),
+																	newParams.getCMDLinePath(),
+																	newParams.getSocketAddress(),
+																	newParams.getSocketPort(),
+																	newParams.getutilize(),
+																	newParams.getcpulimit(),
+																	newParams.getexport(),
+																	newParams.getgraph(),
+																	newParams.getmultiplicative(),
+																	newParams.getnumber(),
+																	newParams.getrules(),
+																	newParams.getcuts(),
+																	newParams.gettriangles(),
+																	newParams.getthreads(),
+																	newParams.getverbosity());
 
 		resultParams.put(resultId, resultParamSet);
 	}

@@ -44,9 +44,25 @@ public class YoshikoParameterSet {
 	//parameters
 
 	//scope
+	public static String COMMANDLINE = "commandline";
+	public static String SOCKET = "sockets";
 	public static String NETWORK = "network";
 	public static String SELECTION = "selection";
-	private String ResultFilePath = "";
+	private String connectType = "";
+	private String CMDLinePath = "";
+	private String SocketAddress = "";
+	private int SocketPort;
+	private String utilize = "";
+	private String cpulimit = "";
+	private String export = "";
+	private String graph = "";
+	private String multiplicative = "";
+	private String number = "";
+	private String rules = "";
+	private String cuts = "";
+	private String triangles = "";
+	private String threads = "";
+	private String verbosity = "";
 	private String scope;
 	private Long[] selectedNodes;
 
@@ -93,9 +109,37 @@ public class YoshikoParameterSet {
 	 * Once an alalysis is conducted, new parameters must be saved so that they can be retrieved in the result panel
 	 * for exploration and export purposes.
 	 */
-	public YoshikoParameterSet(String ResultFilePath) {
+	public YoshikoParameterSet(String connectType,
+			String CMDLinePath,
+			String SocketAddress,
+			int SocketPort,
+			String utilize,
+			String cpulimit,
+			String export,
+			String graph,
+			String multiplicative,
+			String number,
+			String rules,
+			String cuts,
+			String triangles,
+			String threads,
+			String verbosity) {
 
-		setAllAlgorithmParams(ResultFilePath);
+		setAllAlgorithmParams(connectType,
+				CMDLinePath,
+				SocketAddress,
+				SocketPort,
+				utilize,
+				cpulimit,
+				export,
+				graph,
+				multiplicative,
+				number,
+				rules,
+				cuts,
+				triangles,
+				threads,
+				verbosity);
 
 
 		//results dialog box
@@ -106,15 +150,43 @@ public class YoshikoParameterSet {
 	 * Method for setting all parameters to their default values
 	 */
 	public void setDefaultParams() {
-		setAllAlgorithmParams("");
+		setAllAlgorithmParams(COMMANDLINE,"e:", "localhost", 9001, "false", "-1", "false", "", "1", "1", "111111", "false", "false", "max", "0");
 		setAllAlgorithmParams1(NETWORK, new Long[0], false, 2, 2, false, 100, 0.2, false, true, 0.1);
 	}
 
 	/**
 	 * Convenience method to set all the main algorithm parameters
 	 */
-	public void setAllAlgorithmParams(String ResultFilePath) {
-		this.ResultFilePath = ResultFilePath;
+	public void setAllAlgorithmParams(String connectType,
+			String CMDLinePath,
+			String SocketAddress,
+			int SocketPort,
+			String utilize,
+			String cpulimit,
+			String export,
+			String graph,
+			String multiplicative,
+			String number,
+			String rules,
+			String cuts,
+			String triangles,
+			String threads,
+			String verbosity) {
+		this.connectType = connectType;
+		this.CMDLinePath = CMDLinePath;
+		this.SocketAddress = SocketAddress;
+		this.SocketPort = SocketPort;
+		this.utilize = utilize;
+		this.cpulimit = cpulimit;
+		this.export = export;
+		this.graph = graph;
+		this.multiplicative = multiplicative;
+		this.number = number;
+		this.rules = rules;
+		this.cuts = cuts;
+		this.triangles = triangles;
+		this.threads = threads;
+		this.verbosity = verbosity;
 	}
 	
 	public void setAllAlgorithmParams1(String scope,
@@ -149,7 +221,22 @@ public class YoshikoParameterSet {
 	 */
 	public YoshikoParameterSet copy() {
 		YoshikoParameterSet newParam = new YoshikoParameterSet();
-		newParam.setPath(this.ResultFilePath);
+		newParam.setconnectType(this.connectType);
+		newParam.setCMDLinePath(this.CMDLinePath);
+		newParam.setSocketAddress(this.SocketAddress);
+		newParam.setSocketPort(this.SocketPort);
+		newParam.setutilize(this.utilize);
+		newParam.setcpulimit(this.cpulimit);
+		newParam.setexport(this.export);
+		newParam.setgraph(this.graph);
+		newParam.setmultiplicative(this.multiplicative);
+		newParam.setnumber(this.number);
+		newParam.setrules(this.rules);
+		newParam.setcuts(this.cuts);
+		newParam.settriangles(this.triangles);
+		newParam.setthreads(this.threads);
+		newParam.setverbosity(this.verbosity);
+		
 		
 		newParam.setScope(this.scope);
 		newParam.setSelectedNodes(this.selectedNodes);
@@ -168,6 +255,15 @@ public class YoshikoParameterSet {
 		return newParam;
 	}
 	
+	private static String getpathsplit() {
+		String osName = System.getProperty("os.name");
+		String[] items = osName.split(" ");
+		if (items[0].equals("windows"))
+			return "\\";
+		else
+			return "/";
+	}
+
 	//parameter getting and setting
 	public String getScope() {
 		return scope;
@@ -196,13 +292,137 @@ public class YoshikoParameterSet {
 	public int getDegreeCutoff() {
 		return degreeCutoff;
 	}
-
-	public String getPath() {
-		return ResultFilePath;
+	
+	public String getconnectType() {
+		return connectType;
 	}
 	
-	public void setPath(String value) {
-		ResultFilePath = value;
+	public void setconnectType(String value) {
+		connectType = value;
+	}
+	
+	public String getCMDLinePath() {
+		return CMDLinePath;
+	}
+	
+	public String getPath() {
+		return CMDLinePath+getpathsplit();
+	}
+	
+	public String getInput() {
+		return getPath() + "in.sif";
+	}
+	
+	public String getOutput() {
+		return getPath() + "out";
+	}
+	
+	public void setCMDLinePath(String value) {
+		CMDLinePath = value;
+	}
+	
+	public String getSocketAddress() {
+		return SocketAddress;
+	}
+	
+	public void setSocketAddress(String value) {
+		SocketAddress = value;
+	}
+	
+	public int getSocketPort() {
+		return SocketPort;
+	}
+	
+	public void setSocketPort(int value) {
+		SocketPort = value;
+	}
+
+	public String getutilize() {
+		return utilize;
+	}
+
+	public void setutilize(String value) {
+		utilize = value;
+	}
+
+	public String getcpulimit() {
+		return cpulimit;
+	}
+
+	public void setcpulimit(String value) {
+		cpulimit = value;
+	}
+	
+	public String getexport() {
+		return export;
+	}
+
+	public void setexport(String value) {
+		export = value;
+	}
+
+	public String getgraph() {
+		return graph;
+	}
+
+	public void setgraph(String value) {
+		graph = value;
+	}
+
+	public String getmultiplicative() {
+		return multiplicative;
+	}
+
+	public void setmultiplicative(String value) {
+		multiplicative = value;
+	}
+
+	public String getnumber() {
+		return number;
+	}
+
+	public void setnumber(String value) {
+		number = value;
+	}
+
+	public String getrules() {
+		return rules;
+	}
+
+	public void setrules(String value) {
+		rules = value;
+	}
+
+	public String getcuts() {
+		return cuts;
+	}
+
+	public void setcuts(String value) {
+		cuts = value;
+	}
+
+	public String gettriangles() {
+		return triangles;
+	}
+
+	public void settriangles(String value) {
+		triangles = value;
+	}
+
+	public String getthreads() {
+		return threads;
+	}
+
+	public void setthreads(String value) {
+		threads = value;
+	}
+
+	public String getverbosity() {
+		return verbosity;
+	}
+
+	public void setverbosity(String value) {
+		verbosity = value;
 	}
 	
 	public void setDegreeCutoff(int degreeCutoff) {
@@ -290,4 +510,62 @@ public class YoshikoParameterSet {
 				  "  Max. Depth from Seed: " + maxDepthFromStart + lineSep);
 		return sb.toString();
 	}
+	
+	
+	/*private String YoshikoGetCMDStr() {
+		String str = "";
+		if(currentParamsCopy.getCMDLinePath().length() > 0) {
+			str += currentParamsCopy.getCMDLinePath();
+			str += "/yoshiko";
+		} else {
+			str += "./yoshiko";
+		}
+		str += " -F 2 -f in.sif";
+		if(currentParamsCopy.getutilize().length() > 0) {
+			str += " -H ";
+			str += currentParamsCopy.getutilize();
+		}
+		if(currentParamsCopy.getcpulimit().length() > 0) {
+			str += " -T ";
+			str += currentParamsCopy.getcpulimit();
+		}
+		if(currentParamsCopy.getexport().length() > 0) {
+			str += " -e ";
+			str += currentParamsCopy.getexport();
+		}
+		if(currentParamsCopy.getgraph().length() > 0) {
+			str += " -g ";
+			str += currentParamsCopy.getgraph();
+		}
+		if(currentParamsCopy.getmultiplicative().length() > 0) {
+			str += " -m ";
+			str += currentParamsCopy.getmultiplicative();
+		}
+		if(currentParamsCopy.getnumber().length() > 0) {
+			str += " -n ";
+			str += currentParamsCopy.getnumber();
+		}
+		if(currentParamsCopy.getrules().length() > 0) {
+			str += " -r ";
+			str += currentParamsCopy.getrules();
+		}
+		if(currentParamsCopy.getcuts().length() > 0) {
+			str += " -sp ";
+			str += currentParamsCopy.getcuts();
+		}
+		if(currentParamsCopy.gettriangles().length() > 0) {
+			str += " -st ";
+			str += currentParamsCopy.gettriangles();
+		}
+		if(currentParamsCopy.getthreads().length() > 0) {
+			str += " -threads ";
+			str += currentParamsCopy.getthreads();
+		}
+		if(currentParamsCopy.getverbosity().length() > 0) {
+			str += " -v ";
+			str += currentParamsCopy.getverbosity();
+		}
+		str += " -o out -O 2";
+		return str;
+	}*/
 }

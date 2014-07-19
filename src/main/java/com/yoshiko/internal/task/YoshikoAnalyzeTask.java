@@ -6,12 +6,17 @@ import java.util.List;
 import org.cytoscape.model.CyNetwork;
 import org.cytoscape.work.Task;
 import org.cytoscape.work.TaskMonitor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.yoshiko.internal.YoshikoAnalyzeAction;
 import com.yoshiko.internal.event.AnalysisCompletedEvent;
 import com.yoshiko.internal.event.AnalysisCompletedListener;
 import com.yoshiko.internal.model.YoshikoAlgorithm;
 import com.yoshiko.internal.model.YoshikoCluster;
+import com.yoshiko.internal.model.YoshikoGetSIFData;
+import com.yoshiko.internal.model.YoshikoParameterSet;
+import com.yoshiko.internal.model.YoshikoSocket;
 import com.yoshiko.internal.util.YoshikoUtil;
 
 /**
@@ -25,8 +30,11 @@ public class YoshikoAnalyzeTask implements Task {
 	private final int resultId;
 	private final AnalysisCompletedListener listener;
 
-	private boolean interrupted = false;
+	private boolean interrupted;
 	private CyNetwork network;
+	private YoshikoSocket ysocket = null;
+	
+	private static final Logger logger = LoggerFactory.getLogger(YoshikoAnalyzeTask.class);
 
 	/**
 	 * Scores and finds clusters in a given network
@@ -48,6 +56,7 @@ public class YoshikoAnalyzeTask implements Task {
 		this.alg = alg;
 		this.yoshikoUtil = yoshikoUtil;
 		this.listener = listener;
+		ysocket = new YoshikoSocket();
 	}
 
 	/**
@@ -62,6 +71,7 @@ public class YoshikoAnalyzeTask implements Task {
 		boolean success = false;
 		List<YoshikoCluster> clusters = null;
 		yoshikoUtil.resetLoading();
+		YoshikoParameterSet params = alg.getParams();
 		try {
 			// Run MCODE scoring algorithm - node scores are saved in the alg object
 			alg.setTaskMonitor(taskMonitor, network.getSUID());
@@ -74,7 +84,36 @@ public class YoshikoAnalyzeTask implements Task {
 					return;
 				}
 			}
-			clusters = alg.findClusters(network, resultId);
+			if(ysocket == null) return;
+			taskMonitor.setProgress(0.001);
+			taskMonitor.setStatusMessage("Connect Yoshiko (Step 1 of 4)");
+			ysocket.connect(params.getSocketAddress(), params.getSocketPort());
+			Thread.sleep(200);
+			interrupted = true;
+			if(ysocket.SendCommand(0, "", "")) {
+				taskMonitor.setProgress(0.02);
+				ysocket.SendCommand(10, "-F", "2");
+				taskMonitor.setProgress(0.03);
+				YoshikoGetSIFData ysif = new YoshikoGetSIFData(network);
+				taskMonitor.setStatusMessage("Send NetWork (Step 2 of 4)");
+				taskMonitor.setProgress(0.5);
+				ysocket.SendCommand(20, "-f", ysif.GetSIFData());
+				taskMonitor.setProgress(0.8);
+				ysocket.SendCommand(10, "-O", "1");
+				taskMonitor.setProgress(0.9);
+				ysocket.SendCommand(30, "-o", "");
+				taskMonitor.setProgress(0.001);
+				taskMonitor.setStatusMessage("Run Yoshiko (Step 3 of 4)");
+				ysocket.SendCommand(40, "", "");
+				taskMonitor.setProgress(0.001);
+				taskMonitor.setStatusMessage("Import Results (Step 4 of 4)");
+				ysocket.SendCommand(50, "0", "");
+				taskMonitor.setProgress(0.5);
+				String outdata = ysocket.getOutData();
+				interrupted = false;
+				clusters = alg.findClusters(network, resultId, outdata);
+			}
+			ysocket.disconnect();
 			if (interrupted) {
 				return;
 			}

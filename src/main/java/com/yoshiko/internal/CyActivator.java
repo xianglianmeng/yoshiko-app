@@ -18,6 +18,7 @@ import org.cytoscape.model.subnetwork.CyRootNetworkManager;
 import org.cytoscape.service.util.AbstractCyActivator;
 import org.cytoscape.service.util.CyServiceRegistrar;
 import org.cytoscape.util.swing.FileUtil;
+import org.cytoscape.util.swing.OpenBrowser;
 import org.cytoscape.view.model.CyNetworkViewFactory;
 import org.cytoscape.view.model.CyNetworkViewManager;
 import org.cytoscape.view.presentation.RenderingEngineFactory;
@@ -60,7 +61,7 @@ public class CyActivator extends AbstractCyActivator {
 		VisualMappingFunctionFactory continuousMappingFactory = getService(bc, VisualMappingFunctionFactory.class, "(mapping.type=continuous)");
 		
 		FileUtil fileUtil = getService(bc, FileUtil.class);
-		//OpenBrowser openBrowser = getService(bc, OpenBrowser.class);
+		OpenBrowser openBrowser = getService(bc, OpenBrowser.class);
 		CyEventHelper eventHelper = getService(bc, CyEventHelper.class);
 		
 		YoshikoUtil mcodeUtil = new YoshikoUtil(dingRenderingEngineFactory, netViewFactory, rootNetworkMgr,

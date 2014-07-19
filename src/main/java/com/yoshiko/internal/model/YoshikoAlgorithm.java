@@ -1,6 +1,5 @@
 package com.yoshiko.internal.model;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
@@ -283,7 +282,7 @@ public class YoshikoAlgorithm {
 	 * @param resultSetName Title of the result
 	 * @return A list containing an YoshikoCluster object for each cluster.
 	 */
-	public List<YoshikoCluster> findClusters(final CyNetwork inputNetwork, final int resultId) {
+	public List<YoshikoCluster> findClusters(final CyNetwork inputNetwork, final int resultId, final String clusterStr) {
 		/*final SortedMap<Double, List<Long>> nodeScoreSortedMap;
 		final Map<Long, NodeInfo> nodeInfoHashMap;*/
 
@@ -389,14 +388,8 @@ public class YoshikoAlgorithm {
 				}
 			}
 		}*/
-		String clusterStr = null;
+		
 		YoshikoClustersReader ytr = new YoshikoClustersReader();//YoshikoTableReader ytr = new YoshikoTableReader();
-		try {
-			clusterStr = ytr.readFile(params.getPath());
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 		List<List<Long>> clusters = ytr.getClusters(inputNetwork,clusterStr);//List<List<Long>> clusters = ytr.getClusters(inputNetwork, params.getOutput()+"_0.txt");
 		
 		for(List<Long> alCluster : clusters) {

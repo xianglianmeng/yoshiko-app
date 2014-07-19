@@ -4,11 +4,8 @@ import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.io.IOException;
 import java.net.URL;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -19,7 +16,6 @@ import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
-import javax.swing.JFileChooser;
 import javax.swing.JFormattedTextField;
 import javax.swing.JTextField;
 import javax.swing.JLabel;
@@ -27,7 +23,6 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JToolTip;
-import javax.swing.filechooser.FileNameExtensionFilter;
 
 import org.cytoscape.application.swing.CyAction;
 import org.cytoscape.application.swing.CySwingApplication;
@@ -85,7 +80,7 @@ public class YoshikoMainPanel extends JPanel implements CytoPanelComponent {
 	private final List<CyAction> actions;
 
 	private JPanel bottomPanel;
-	private JPanel resultFilePanel;
+	private JPanel connectOptionsPanel;
 	private YoshikoCollapsiblePanel yoshikoOptionsPanel;
 
 	private YoshikoParameterSet currentParamsCopy; // stores current parameters - populates panel fields
@@ -96,6 +91,19 @@ public class YoshikoMainPanel extends JPanel implements CytoPanelComponent {
 	JPanel customizeClusterFindingContent;
 
 	JFormattedTextField pathTextField;
+	JFormattedTextField addrTextField;
+	JFormattedTextField portTextField;
+	JFormattedTextField utilizeTextField;
+	JFormattedTextField cpulimitTextField;
+	JFormattedTextField exportTextField;
+	JFormattedTextField graphTextField;
+	JFormattedTextField multiplicativeTextField;
+	JFormattedTextField numberTextField;
+	JFormattedTextField rulesTextField;
+	JFormattedTextField cutsTextField;
+	JFormattedTextField trianglesTextField;
+	JFormattedTextField threadsTextField;
+	JFormattedTextField verbosityTextField;
 	JRadioButton optimizeOption; // only for network scope
 	JRadioButton customizeOption;
 	JCheckBox preprocessCheckBox; // only for node and node set scopes
@@ -120,7 +128,7 @@ public class YoshikoMainPanel extends JPanel implements CytoPanelComponent {
 		decFormat = new DecimalFormat();
 		decFormat.setParseIntegerOnly(true);
 
-		add(getresultFilePanel(), BorderLayout.NORTH);
+		add(getConnectOptionsPanel(), BorderLayout.NORTH);
 		//add(getYoshikoOptionsPanel(), BorderLayout.CENTER);
 		add(getBottomPanel(), BorderLayout.SOUTH);
 	}
@@ -157,27 +165,25 @@ public class YoshikoMainPanel extends JPanel implements CytoPanelComponent {
 		return currentParamsCopy;
 	}
 
-	private JPanel getresultFilePanel() {
-		if (resultFilePanel == null) {
-			resultFilePanel = new JPanel();
+	private JPanel getConnectOptionsPanel() {
+		if (connectOptionsPanel == null) {
+			connectOptionsPanel = new JPanel();
 
-			resultFilePanel.setLayout(new GridLayout(0, 1));
+			connectOptionsPanel.setLayout(new GridLayout(0, 1));
 
-			JLabel pathLabel = new JLabel("Result file");
+			//command line path
+			/*JLabel pathLabel = new JLabel("PATH");
 
 			pathTextField = new JFormattedTextField();
 
-			pathTextField.setColumns(18);
-			pathTextField.addPropertyChangeListener("value", new YoshikoMainPanel.FormattedTextFieldAction());
-			String pathTip = "Sets the result table file.";
+			pathTextField.setColumns(25);
+			pathTextField.addPropertyChangeListener("value",
+																	 new YoshikoMainPanel.FormattedTextFieldAction());
+			String pathTip = "Sets the tmp path.";
 			pathTextField.setToolTipText(pathTip);
-			pathTextField.setText(currentParamsCopy.getPath());
+			pathTextField.setText(currentParamsCopy.getCMDLinePath());
 
 			JPanel pathPanel = new JPanel() {
-
-				/**
-				 * 
-				 */
 				private static final long serialVersionUID = 1L;
 
 				public JToolTip createToolTip() {
@@ -190,39 +196,73 @@ public class YoshikoMainPanel extends JPanel implements CytoPanelComponent {
 
 			pathPanel.add(pathLabel, BorderLayout.WEST);
 			pathPanel.add(pathTextField, BorderLayout.EAST);
+			*/
+			//IP address
+			JLabel addressLabel = new JLabel("Socket address");
 
-			
-			JButton bbrow = new JButton("Browse");
-			bbrow.addActionListener(new ActionListener() {
+			addrTextField = new JFormattedTextField();
 
-				@Override
-				public void actionPerformed(ActionEvent arg0) {
-					JFileChooser fc = new JFileChooser();
-					fc.setDialogTitle("Open ResultFile");
-					String type[] = {"txt"};
-					fc.setFileFilter(new FileNameExtensionFilter("TableFile",type));
-					int flag = fc.showOpenDialog(fc);
-					if(flag==JFileChooser.APPROVE_OPTION)   
-			        {   
-						String path;
-						try {
-							path = fc.getSelectedFile().getCanonicalPath();
-							currentParamsCopy.setPath(path);
-							pathTextField.setText(path);
-						} catch (IOException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
-					}
+			addrTextField.setColumns(18);
+			addrTextField.addPropertyChangeListener("value",
+																	 new YoshikoMainPanel.FormattedTextFieldAction());
+			String ipaddressTip = "Sets the network address of the socket.";
+			addrTextField.setToolTipText(ipaddressTip);
+			addrTextField.setText(currentParamsCopy.getSocketAddress());
+
+			JPanel addrPanel = new JPanel() {
+
+				/**
+				 * 
+				 */
+				private static final long serialVersionUID = 1L;
+
+				public JToolTip createToolTip() {
+					return new JMultiLineToolTip();
 				}
-			});
+			};
+
+			addrPanel.setLayout(new BorderLayout());
+			addrPanel.setToolTipText(ipaddressTip);
+
+			addrPanel.add(addressLabel, BorderLayout.WEST);
+			addrPanel.add(addrTextField, BorderLayout.EAST);
+			
+			JLabel portLabel = new JLabel("Sockets port");
+			
+			portTextField = new JFormattedTextField();
+
+			portTextField.setColumns(6);
+			portTextField.addPropertyChangeListener("value",
+																	 new YoshikoMainPanel.FormattedTextFieldAction());
+			String portTip = "Sets the network address of the socket.";
+			portTextField.setToolTipText(portTip);
+			portTextField.setText(String.valueOf(currentParamsCopy.getSocketPort()));
+
+			JPanel portPanel = new JPanel() {
+
+				/**
+				 * 
+				 */
+				private static final long serialVersionUID = 1L;
+
+				public JToolTip createToolTip() {
+					return new JMultiLineToolTip();
+				}
+			};
+
+			portPanel.setLayout(new BorderLayout());
+			portPanel.setToolTipText(portTip);
+
+			portPanel.add(portLabel, BorderLayout.WEST);
+			portPanel.add(portTextField, BorderLayout.EAST);
+
 			//add the components to the panel
-			//resultFilePanel.add(pathPanel);
-			resultFilePanel.add(pathPanel);
-			resultFilePanel.add(bbrow);
+			//connectOptionsPanel.add(pathPanel);
+			connectOptionsPanel.add(addrPanel);
+			connectOptionsPanel.add(portPanel);
 		}
 
-		return resultFilePanel;
+		return connectOptionsPanel;
 	}
 	
 	/*private YoshikoCollapsiblePanel getYoshikoOptionsPanel() {
@@ -507,7 +547,65 @@ public class YoshikoMainPanel extends JPanel implements CytoPanelComponent {
 
 			if (source == pathTextField) {
 				String value = pathTextField.getText();
-				currentParamsCopy.setPath(value);
+				currentParamsCopy.setCMDLinePath(value);
+			} else if (source == addrTextField) {
+				String value = addrTextField.getText();
+				
+				if ((value != null) && (value.length() > 0)) {
+					currentParamsCopy.setSocketAddress(value);
+				} else {
+					source.setText("localhost");
+					//message += "";
+					invalid = true;
+				}
+			} else if (source == portTextField) {
+				Integer value = Integer.valueOf(portTextField.getText());
+				
+				if ((value != null) && (value.intValue() > 0) && (value.intValue() < 65536)) {
+					currentParamsCopy.setSocketPort(value);
+				} else if(value.intValue() < 0) {
+					//source.setValue(1);
+					source.setText("1");
+					message += "The port must be greater than 0.";
+					invalid = true;
+				} else {
+					source.setText("65535");
+					message += "The port must be less than 65536.";
+					invalid = true;
+				}
+			} else if (source == utilizeTextField) {
+				String value = utilizeTextField.getText();
+				currentParamsCopy.setutilize(value);
+			} else if (source == cpulimitTextField) {
+				String value = cpulimitTextField.getText();
+				currentParamsCopy.setcpulimit(value);
+			} else if (source == exportTextField) {
+				String value = exportTextField.getText();
+				currentParamsCopy.setexport(value);
+			} else if (source == graphTextField) {
+				String value = graphTextField.getText();
+				currentParamsCopy.setgraph(value);
+			} else if (source == multiplicativeTextField) {
+				String value = multiplicativeTextField.getText();
+				currentParamsCopy.setmultiplicative(value);
+			} else if (source == numberTextField) {
+				String value = numberTextField.getText();
+				currentParamsCopy.setnumber(value);
+			} else if (source == rulesTextField) {
+				String value = rulesTextField.getText();
+				currentParamsCopy.setrules(value);
+			} else if (source == cutsTextField) {
+				String value = cutsTextField.getText();
+				currentParamsCopy.setcuts(value);
+			} else if (source == trianglesTextField) {
+				String value = trianglesTextField.getText();
+				currentParamsCopy.settriangles(value);
+			} else if (source == threadsTextField) {
+				String value = threadsTextField.getText();
+				currentParamsCopy.setthreads(value);
+			} else if (source == verbosityTextField) {
+				String value = verbosityTextField.getText();
+				currentParamsCopy.setverbosity(value);
 			}
 			if (invalid) {
 				JOptionPane.showMessageDialog(swingApplication.getJFrame(),

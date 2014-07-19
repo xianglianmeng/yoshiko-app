@@ -1,23 +1,13 @@
 package com.yoshiko.internal.model;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.List;
-
 import org.cytoscape.model.CyNetwork;
 import org.cytoscape.model.CyNode;
 import org.cytoscape.model.CyRow;
 import org.cytoscape.model.CyTable;
 
 public class YoshikoClustersReader {
-	
-	private static final int BUFFER_SIZE = 16384;
 
 	public YoshikoClustersReader() {
 
@@ -82,31 +72,5 @@ public class YoshikoClustersReader {
 		}
 		clusters.add(getSUIDList(inputNetwork, cluster));
 		return clusters;
-	}
-	
-	public String readFile(String path) throws IOException {
-		InputStream stream = null;
-		File fp = new File(path);
-		stream = new FileInputStream(fp);
-		String result = readString(stream);
-		stream.close();
-		return result;
-	}
-	
-	private static String readString(InputStream source) throws IOException {
-		StringWriter writer = new StringWriter();
-		BufferedReader reader = new BufferedReader(
-				new InputStreamReader(source));
-		try {
-			char[] buffer = new char[BUFFER_SIZE];
-			int charactersRead = reader.read(buffer, 0, buffer.length);
-			while (charactersRead != -1) {
-				writer.write(buffer, 0, charactersRead);
-				charactersRead = reader.read(buffer, 0, buffer.length);
-			}
-		} finally {
-			reader.close();
-		}
-		return writer.toString();
 	}
 }

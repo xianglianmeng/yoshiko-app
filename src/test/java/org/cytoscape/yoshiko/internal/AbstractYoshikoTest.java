@@ -32,7 +32,7 @@ public abstract class AbstractYoshikoTest {
 		alg = new YoshikoAlgorithm(net.getSUID(), mcodeUtil);
 		alg.scoreGraph(net, resultId);
 		
-		return alg.findClusters(net, resultId);
+		return alg.findClusters(net, resultId,"");
 	}
 
 	protected CyNetwork createCompleteGraph(int totalNodes) {
