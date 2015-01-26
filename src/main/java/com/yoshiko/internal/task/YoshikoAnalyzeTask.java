@@ -119,7 +119,7 @@ public class YoshikoAnalyzeTask implements Task {
 			}
 
 			// Also create all the images here for the clusters, since it can be a time consuming operation
-			//yoshikoUtil.sortClusters(clusters);
+			yoshikoUtil.sortClusters(clusters);
 			int imageSize = yoshikoUtil.getCurrentParameters().getResultParams(resultId).getDefaultRowHeight();
 			int count = 0;
 

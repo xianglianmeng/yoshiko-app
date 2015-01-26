@@ -3,9 +3,6 @@ package com.yoshiko.internal.model;
 import java.util.ArrayList;
 import java.util.List;
 import org.cytoscape.model.CyNetwork;
-import org.cytoscape.model.CyNode;
-import org.cytoscape.model.CyRow;
-import org.cytoscape.model.CyTable;
 
 public class YoshikoClustersReader {
 
@@ -19,19 +16,10 @@ public class YoshikoClustersReader {
 		return clusters;
 	}
 
-	private List<Long> getSUIDList(final CyNetwork inputNetwork,
-			List<String> names) {
-		final List<CyNode> nodes = inputNetwork.getNodeList();
-		final CyTable ct = inputNetwork.getDefaultNodeTable();
+	private List<Long> getSUIDList(List<String> names) {
 		List<Long> SUIDList = new ArrayList<Long>();
-		for (CyNode n : nodes) {
-			CyRow cr = ct.getRow(n.getSUID());
-			String name = cr.get("name", String.class);
-			for (String str : names) {
-				if (name.equals(str)) {
-					SUIDList.add(n.getSUID());
-				}
-			}
+		for (String str : names) {
+			SUIDList.add(Long.valueOf(str));
 		}
 		return SUIDList;
 	}
@@ -62,7 +50,7 @@ public class YoshikoClustersReader {
 			String item2 = items[1].trim();
 			int cidx = Integer.valueOf(item2);
 			if (cidx != cluster_index) {
-				clusters.add(getSUIDList(inputNetwork, cluster));
+				clusters.add(getSUIDList(cluster));
 				cluster_index = cidx;
 				cluster = new ArrayList<String>();
 				cluster.add(item1);
@@ -70,7 +58,7 @@ public class YoshikoClustersReader {
 				cluster.add(item1);
 			}
 		}
-		clusters.add(getSUIDList(inputNetwork, cluster));
+		clusters.add(getSUIDList(cluster));
 		return clusters;
 	}
 }

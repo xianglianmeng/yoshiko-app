@@ -391,7 +391,7 @@ public class YoshikoAlgorithm {
 		
 		YoshikoClustersReader ytr = new YoshikoClustersReader();//YoshikoTableReader ytr = new YoshikoTableReader();
 		List<List<Long>> clusters = ytr.getClusters(inputNetwork,clusterStr);//List<List<Long>> clusters = ytr.getClusters(inputNetwork, params.getOutput()+"_0.txt");
-		
+		int ranks = 0;
 		for(List<Long> alCluster : clusters) {
 			currentNode = alCluster.get(0);
 			Map<Long, Boolean> nodeSeenHashMapSnapShot = new HashMap<Long, Boolean>(nodeSeenHashMap);
@@ -404,6 +404,8 @@ public class YoshikoAlgorithm {
 					
 					YoshikoCluster currentCluster = new YoshikoCluster(resultId, currentNode, clusterGraph, score,
 							alCluster, nodeSeenHashMapSnapShot);
+					currentCluster.setRank(ranks);
+					ranks++;
 					
 					alClusters.add(currentCluster);
 				//}

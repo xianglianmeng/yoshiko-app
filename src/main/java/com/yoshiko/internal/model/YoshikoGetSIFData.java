@@ -35,40 +35,38 @@ public class YoshikoGetSIFData {
 		List<CyNode> nodeList = network.getNodeList();
 		for (Iterator<CyNode> i$ = nodeList.iterator(); i$.hasNext();) {
 			node = (CyNode) i$.next();
-			sourceName = (String) network.getRow(node)
-					.get("name", String.class);
-			List<CyEdge> edges = network.getAdjacentEdgeList(node,
-					CyEdge.Type.ANY);
+			sourceName = node.getSUID().toString();//(String) network.getRow(node).get("name", String.class);
+			List<CyEdge> edges = network.getAdjacentEdgeList(node, CyEdge.Type.ANY);
 			if ((sourceName == null) || (sourceName.length() == 0)) {
 				throw new IllegalStateException(
 						"This network contains null or empty node name.");
 			}
 
-			if (edges.size() == 0)
-				writer.write(sourceName + lineSep);
-			else
+			if (edges.size() == 0) {
+				//writer.write(sourceName + "\tpp\t" + sourceName + lineSep);
+			}
+			else {
 				for (CyEdge edge : edges) {
 					if (node == edge.getSource()) {
 						CyNode target = edge.getTarget();
-						String targetName = (String) network.getRow(target)
-								.get("name", String.class);
+						String targetName = target.getSUID().toString();//(String) network.getRow(target).get("name", String.class);
 						if ((targetName == null) || (targetName.length() == 0)) {
 							throw new IllegalStateException(
 									"This network contains null or empty node name.");
 						}
-						String interactionName = (String) network.getRow(edge)
-								.get("interaction", String.class);
+						String interactionName = (String) network.getRow(edge).get("interaction", String.class);
 						if (interactionName == null) {
 							interactionName = "-";
 						}
 						writer.write(sourceName);
 						writer.write("\t");
-						writer.write(interactionName);
+						writer.write("pp");//writer.write(interactionName);
 						writer.write("\t");
 						writer.write(targetName);
 						writer.write(lineSep);
 					}
 				}
+			}
 		}
 		return writer.toString();
 	}
