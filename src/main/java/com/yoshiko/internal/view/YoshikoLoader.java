@@ -77,7 +77,7 @@ public class YoshikoLoader extends ImageIcon implements Runnable {
 
 	private Thread t;
 	private boolean loading; // run switch
-	private boolean loaderDisplayed; //allows mcode to display a continuous loading animation during continuous exploration
+	private boolean loaderDisplayed; //allows yoshiko to display a continuous loading animation during continuous exploration
 
     /**
      * Constructor for the loader.

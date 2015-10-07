@@ -78,11 +78,11 @@ import com.yoshiko.internal.view.YoshikoResultsPanel;
  * * User: Gary Bader
  * * Date: May 5, 2004
  * * Time: 8:46:19 PM
- * * Description: simple score and find action for MCODE
+ * * Description: simple score and find action for Yoshiko
  */
 
 /**
- * Simple score and find action for MCODE. This should be the default for general users.
+ * Simple score and find action for Yoshiko. This should be the default for general users.
  */
 public class YoshikoAnalyzeAction extends AbstractYoshikoAction implements SetCurrentNetworkListener, AddedNodesListener,
 		AddedEdgesListener, RemovedNodesListener, RemovedEdgesListener {
@@ -119,7 +119,7 @@ public class YoshikoAnalyzeAction extends AbstractYoshikoAction implements SetCu
 	/**
 	 * This method is called when the user clicks Analyze.
 	 *
-	 * @param event Click of the analyzeButton on the MCODEMainPanel.
+	 * @param event Click of the analyzeButton on the YoshikoMainPanel.
 	 */
 	@Override
 	public void actionPerformed(final ActionEvent event) {
@@ -135,7 +135,7 @@ public class YoshikoAnalyzeAction extends AbstractYoshikoAction implements SetCu
 			return;
 		}
 
-		// MCODE needs a network of at least 1 node
+		// Yoshiko needs a network of at least 1 node
 		if (network.getNodeCount() < 1) {
 			JOptionPane.showMessageDialog(swingApplication.getJFrame(),
 										  "The analysis cannot be performed on an empty network.",
@@ -160,7 +160,7 @@ public class YoshikoAnalyzeAction extends AbstractYoshikoAction implements SetCu
 		final YoshikoAlgorithm alg;
 		final YoshikoParameterSet savedParamsCopy;
 
-		// Here we determine if we have already run mcode on this network before
+		// Here we determine if we have already run yoshiko on this network before
 		// if we have then we use the stored alg class and the last saved parameters
 		// of that network (so as to determine if rescoring/refinding is required for
 		// this network without interference by parameters of other networks)
@@ -200,7 +200,7 @@ public class YoshikoAnalyzeAction extends AbstractYoshikoAction implements SetCu
 		}
 
 		// Finally we save the current parameters
-		//MCODECurrentParameters.getInstance().setParams(currentParamsCopy, resultId, network.getIdentifier());
+		//YoshikoCurrentParameters.getInstance().setParams(currentParamsCopy, resultId, network.getIdentifier());
 
 		// In case the user selected selection scope we must make sure that they selected at least 1 node
 		if (currentParamsCopy.getScope().equals(YoshikoParameterSet.SELECTION) &&
@@ -246,7 +246,7 @@ public class YoshikoAnalyzeAction extends AbstractYoshikoAction implements SetCu
 						} else {
 							JOptionPane.showMessageDialog(swingApplication.getJFrame(),
 														  "No clusters were found.\n"
-																  + "You can try changing the MCODE parameters or\n"
+																  + "You can try changing the Yoshiko parameters or\n"
 																  + "modifying your node selection if you are using\n"
 																  + "a selection-specific scope.",
 														  "No Results",
@@ -267,7 +267,7 @@ public class YoshikoAnalyzeAction extends AbstractYoshikoAction implements SetCu
 				}
 			};
 
-			// Run MCODE
+			// Run Yoshiko
 			YoshikoAnalyzeTaskFactory analyzeTaskFactory = new YoshikoAnalyzeTaskFactory(network, analyze, resultId, alg,
 																					 yoshikoUtil, listener);
 			taskManager.execute(analyzeTaskFactory.createTaskIterator());

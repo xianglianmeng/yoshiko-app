@@ -18,43 +18,43 @@ public class YoshikoCloseTaskFactory implements TaskFactory, NetworkAboutToBeDes
 	
 	private final CySwingApplication swingApplication;
 	private final CyServiceRegistrar registrar;
-	private final YoshikoUtil mcodeUtil;
+	private final YoshikoUtil yoshikoUtil;
 	
 	public YoshikoCloseTaskFactory(final CySwingApplication swingApplication,
 								 final CyServiceRegistrar registrar,
-								 final YoshikoUtil mcodeUtil) {
+								 final YoshikoUtil yoshikoUtil) {
 		this.swingApplication = swingApplication;
 		this.registrar = registrar;
-		this.mcodeUtil = mcodeUtil;
+		this.yoshikoUtil = yoshikoUtil;
 	}
 
 	@Override
 	public TaskIterator createTaskIterator() {
 		final TaskIterator taskIterator = new TaskIterator();
-		final Collection<YoshikoResultsPanel> resultPanels = mcodeUtil.getResultPanels();
-		final YoshikoCloseAllResultsTask closeResultsTask = new YoshikoCloseAllResultsTask(swingApplication, mcodeUtil);
+		final Collection<YoshikoResultsPanel> resultPanels = yoshikoUtil.getResultPanels();
+		final YoshikoCloseAllResultsTask closeResultsTask = new YoshikoCloseAllResultsTask(swingApplication, yoshikoUtil);
 
 		if (resultPanels.size() > 0)
 			taskIterator.append(closeResultsTask);
 		
-		taskIterator.append(new YoshikoCloseTask(closeResultsTask, registrar, mcodeUtil));
+		taskIterator.append(new YoshikoCloseTask(closeResultsTask, registrar, yoshikoUtil));
 		
 		return taskIterator;
 	}
 
 	@Override
 	public boolean isReady() {
-		return mcodeUtil.isOpened();
+		return yoshikoUtil.isOpened();
 	}
 	
 	@Override
 	public void handleEvent(final NetworkAboutToBeDestroyedEvent e) {
-		if (mcodeUtil.isOpened()) {
+		if (yoshikoUtil.isOpened()) {
 			CyNetwork network = e.getNetwork();
-			Set<Integer> resultIds = mcodeUtil.getNetworkResults(network.getSUID());
+			Set<Integer> resultIds = yoshikoUtil.getNetworkResults(network.getSUID());
 
 			for (int id : resultIds) {
-				YoshikoResultsPanel panel = mcodeUtil.getResultPanel(id);
+				YoshikoResultsPanel panel = yoshikoUtil.getResultPanel(id);
 				if (panel != null) panel.discard(false);
 			}
 		}

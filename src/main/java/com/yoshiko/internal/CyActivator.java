@@ -64,15 +64,15 @@ public class CyActivator extends AbstractCyActivator {
 		OpenBrowser openBrowser = getService(bc, OpenBrowser.class);
 		CyEventHelper eventHelper = getService(bc, CyEventHelper.class);
 		
-		YoshikoUtil mcodeUtil = new YoshikoUtil(dingRenderingEngineFactory, netViewFactory, rootNetworkMgr,
+		YoshikoUtil yoshikoUtil = new YoshikoUtil(dingRenderingEngineFactory, netViewFactory, rootNetworkMgr,
 											appMgr, netMgr, netViewMgr, visualStyleFactory,
 											visualMappingMgr, swingApp, eventHelper, discreteMappingFactory,
 											continuousMappingFactory, fileUtil);
 		
-		YoshikoAnalyzeAction analyzeAction = new YoshikoAnalyzeAction("Analyze current network Yoshiko", appMgr, swingApp, netViewMgr, serviceRegistrar, taskMgr, mcodeUtil);
+		YoshikoAnalyzeAction analyzeAction = new YoshikoAnalyzeAction("Analyze current network Yoshiko", appMgr, swingApp, netViewMgr, serviceRegistrar, taskMgr, yoshikoUtil);
 		//YoshikoHelpAction helpAction = new YoshikoHelpAction("Help", appMgr, swingApp, netViewMgr, openBrowser);
-		YoshikoVisualStyleAction visualStyleAction = new YoshikoVisualStyleAction("Apply Yoshiko style", appMgr, swingApp, netViewMgr, visualMappingMgr, mcodeUtil);
-		//YoshikoAboutAction aboutAction = new YoshikoAboutAction("About", appMgr, swingApp, netViewMgr, openBrowser, mcodeUtil);
+		YoshikoVisualStyleAction visualStyleAction = new YoshikoVisualStyleAction("Apply Yoshiko style", appMgr, swingApp, netViewMgr, visualMappingMgr, yoshikoUtil);
+		//YoshikoAboutAction aboutAction = new YoshikoAboutAction("About", appMgr, swingApp, netViewMgr, openBrowser, yoshikoUtil);
 		
 		//registerService(bc, helpAction, CyAction.class, new Properties());
 		//registerService(bc, aboutAction, CyAction.class, new Properties());
@@ -80,7 +80,7 @@ public class CyActivator extends AbstractCyActivator {
 		registerService(bc, visualStyleAction, CyAction.class, new Properties());
 		registerService(bc, visualStyleAction, CytoPanelComponentSelectedListener.class, new Properties());
 		
-		YoshikoOpenTaskFactory openTaskFactory = new YoshikoOpenTaskFactory(swingApp, serviceRegistrar, mcodeUtil, analyzeAction);
+		YoshikoOpenTaskFactory openTaskFactory = new YoshikoOpenTaskFactory(swingApp, serviceRegistrar, yoshikoUtil, analyzeAction);
 		Properties openTaskFactoryProps = new Properties();
 		openTaskFactoryProps.setProperty(PREFERRED_MENU, "Apps.Yoshiko");
 		openTaskFactoryProps.setProperty(TITLE, "Open Yoshiko");
@@ -88,7 +88,7 @@ public class CyActivator extends AbstractCyActivator {
 		
 		registerService(bc, openTaskFactory, TaskFactory.class, openTaskFactoryProps);
 		
-		YoshikoCloseTaskFactory closeTaskFactory = new YoshikoCloseTaskFactory(swingApp, serviceRegistrar, mcodeUtil);
+		YoshikoCloseTaskFactory closeTaskFactory = new YoshikoCloseTaskFactory(swingApp, serviceRegistrar, yoshikoUtil);
 		Properties closeTaskFactoryProps = new Properties();
 		closeTaskFactoryProps.setProperty(PREFERRED_MENU, "Apps.Yoshiko");
 		closeTaskFactoryProps.setProperty(TITLE, "Close Yoshiko");

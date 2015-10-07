@@ -20,7 +20,7 @@ import com.yoshiko.internal.model.YoshikoSocket;
 import com.yoshiko.internal.util.YoshikoUtil;
 
 /**
- * MCODE Score network and find cluster task.
+ * Yoshiko Score network and find cluster task.
  */
 public class YoshikoAnalyzeTask implements Task {
 
@@ -59,7 +59,7 @@ public class YoshikoAnalyzeTask implements Task {
 	}
 
 	/**
-	 * Run MCODE (Both score and find steps).
+	 * Run Yoshiko (Both score and find steps).
 	 */
 	@Override
 	public void run(TaskMonitor taskMonitor) throws Exception {
@@ -76,7 +76,7 @@ public class YoshikoAnalyzeTask implements Task {
 		host = params.getSocketAddress();
 		port = params.getSocketPort();
 		try {
-			// Run MCODE scoring algorithm - node scores are saved in the alg object
+			// Run Yoshiko scoring algorithm - node scores are saved in the alg object
 			alg.setTaskMonitor(taskMonitor, network.getSUID());
 
 			// Only (re)score the graph if the scoring parameters have been changed

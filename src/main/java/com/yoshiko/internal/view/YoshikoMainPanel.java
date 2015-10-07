@@ -76,7 +76,7 @@ public class YoshikoMainPanel extends JPanel implements CytoPanelComponent {
 	private static final long serialVersionUID = -4442491309881609088L;
 	
 	private final CySwingApplication swingApplication;
-	private final YoshikoUtil mcodeUtil;
+	private final YoshikoUtil yoshikoUtil;
 	private final List<CyAction> actions;
 
 	private JPanel bottomPanel;
@@ -115,14 +115,14 @@ public class YoshikoMainPanel extends JPanel implements CytoPanelComponent {
 	/**
 	 * The actual parameter change panel that builds the UI
 	 */
-	public YoshikoMainPanel(final CySwingApplication swingApplication, final YoshikoUtil mcodeUtil) {
+	public YoshikoMainPanel(final CySwingApplication swingApplication, final YoshikoUtil yoshikoUtil) {
 		this.swingApplication = swingApplication;
-		this.mcodeUtil = mcodeUtil;
+		this.yoshikoUtil = yoshikoUtil;
 		actions = new ArrayList<CyAction>();
 
 		setLayout(new BorderLayout());
 
-		currentParamsCopy = this.mcodeUtil.getCurrentParameters().getParamsCopy(null);
+		currentParamsCopy = this.yoshikoUtil.getCurrentParameters().getParamsCopy(null);
 		currentParamsCopy.setDefaultParams();
 
 		decFormat = new DecimalFormat();
@@ -523,7 +523,7 @@ public class YoshikoMainPanel extends JPanel implements CytoPanelComponent {
 	}*/
 	
 	/**
-	 * Utility method that creates a panel for buttons at the bottom of the <code>MCODEMainPanel</code>
+	 * Utility method that creates a panel for buttons at the bottom of the <code>YoshikoMainPanel</code>
 	 *
 	 * @return a flow layout panel containing the analyze and quite buttons
 	 */

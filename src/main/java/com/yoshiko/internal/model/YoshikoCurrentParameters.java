@@ -40,8 +40,8 @@ import java.util.Map;
  **/
 
 /**
- * Stores the current parameters for MCODE.  Parameters are entered in the MCODEMainPanel and
- * stored in a hash map for the particular network being analyzed by the MCODEAnalyzeAction
+ * Stores the current parameters for Yoshiko.  Parameters are entered in the YoshikoMainPanel and
+ * stored in a hash map for the particular network being analyzed by the YoshikoAnalyzeAction
  * if the analysis produced a result.
  */
 public class YoshikoCurrentParameters {
@@ -53,7 +53,7 @@ public class YoshikoCurrentParameters {
 	 * Get a copy of the current parameters for a particular network. Only a copy of the current param object is
 	 * returned to avoid side effects.  The user should use the following code to get their
 	 * own copy of the current parameters:
-	 * MCODECurrentParameters.getInstance().getParamsCopy();
+	 * YoshikoCurrentParameters.getInstance().getParamsCopy();
 	 * <p/>
 	 * Note: parameters can be changed by the user after you have your own copy,
 	 * so if you always need the latest, you should get the updated parameters again.                                                    
@@ -72,7 +72,7 @@ public class YoshikoCurrentParameters {
 
 	/**
 	 * Current parameters can only be updated using this method.
-	 * This method is called by MCODEAnalyzeAction after comparisons have been conducted
+	 * This method is called by YoshikoAnalyzeAction after comparisons have been conducted
 	 * between the last saved version of the parameters and the current user's version.
 	 *
 	 * @param newParams The new current parameters to set

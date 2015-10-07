@@ -60,11 +60,11 @@ import com.yoshiko.internal.util.YoshikoUtil;
  * * User: Gary Bader
  * * Date: Jul 9, 2004
  * * Time: 11:57:55 AM
- * * Description  JUnit testing for MCODE
+ * * Description  JUnit testing for Yoshiko
  */
 
 /**
- * Test for the MCODE algorithm
+ * Test for the Yoshiko algorithm
  */
 public class YoshikoUtilTest extends AbstractYoshikoTest {
 
@@ -89,7 +89,7 @@ public class YoshikoUtilTest extends AbstractYoshikoTest {
 		rootNetMgr = netViewTestSupport.getRootNetworkFactory();
 		netViewFactory = netViewTestSupport.getNetworkViewFactory();
 		
-		mcodeUtil = new YoshikoUtil(rendererFactory, netViewFactory, rootNetMgr, appMgr, netMgr, netViewMgr,
+		yoshikoUtil = new YoshikoUtil(rendererFactory, netViewFactory, rootNetMgr, appMgr, netMgr, netViewMgr,
 				styleFactory, vmMgr, swingApp, evtHelper, vmfFactory, vmfFactory, fileUtil);
 	}
 	
@@ -102,7 +102,7 @@ public class YoshikoUtilTest extends AbstractYoshikoTest {
 		List<YoshikoCluster> clusters = findClusters(net, resultId);
 		assertEquals(1, clusters.size());
 		
-		mcodeUtil.destroyUnusedNetworks(net, clusters);
+		yoshikoUtil.destroyUnusedNetworks(net, clusters);
 		
 		assertEquals(originalNetCount + clusters.size(), rn.getSubNetworkList().size());
 		*/

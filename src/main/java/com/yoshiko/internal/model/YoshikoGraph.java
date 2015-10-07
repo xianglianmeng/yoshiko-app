@@ -26,13 +26,13 @@ public class YoshikoGraph {
 	private final Map<Long, CyNode> nodeMap;
 	private final Map<Long, CyEdge> edgeMap;
 	private CySubNetwork subNetwork;
-	private YoshikoUtil mcodeUtil;
+	private YoshikoUtil yoshikoUtil;
 	private boolean disposed;
 
 	public YoshikoGraph(final CyNetwork parentNetwork,
 					  final Collection<CyNode> nodes,
 					  final Collection<CyEdge> edges,
-					  final YoshikoUtil mcodeUtil) {
+					  final YoshikoUtil yoshikoUtil) {
 		if (parentNetwork == null)
 			throw new NullPointerException("parentNetwork is null!");
 		if (nodes == null)
@@ -40,7 +40,7 @@ public class YoshikoGraph {
 		if (edges == null)
 			throw new NullPointerException("edges is null!");
 
-		this.mcodeUtil = mcodeUtil;
+		this.yoshikoUtil = yoshikoUtil;
 		this.parentNetwork = parentNetwork;
 		this.nodes = Collections.synchronizedSet(new HashSet<CyNode>(nodes.size()));
 		this.edges = Collections.synchronizedSet(new HashSet<CyEdge>(edges.size()));
@@ -145,7 +145,7 @@ public class YoshikoGraph {
 
 	public synchronized CySubNetwork getSubNetwork() {
 		if (!disposed && subNetwork == null)
-			subNetwork = mcodeUtil.createSubNetwork(parentNetwork, nodes, SavePolicy.DO_NOT_SAVE);
+			subNetwork = yoshikoUtil.createSubNetwork(parentNetwork, nodes, SavePolicy.DO_NOT_SAVE);
 
 		return subNetwork;
 	}
@@ -158,7 +158,7 @@ public class YoshikoGraph {
 		if (disposed) return;
 		
 		if (subNetwork != null) {
-			mcodeUtil.destroy(subNetwork);
+			yoshikoUtil.destroy(subNetwork);
 			subNetwork = null;
 		}
 		

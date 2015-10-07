@@ -16,7 +16,7 @@ import com.yoshiko.internal.util.YoshikoUtil;
 public abstract class AbstractYoshikoTest {
 
 	protected YoshikoAlgorithm alg;
-	protected YoshikoUtil mcodeUtil;
+	protected YoshikoUtil yoshikoUtil;
 	protected final NetworkViewTestSupport netViewTestSupport;
 
 	public AbstractYoshikoTest() {
@@ -28,8 +28,8 @@ public abstract class AbstractYoshikoTest {
 	}
 
 	protected List<YoshikoCluster> findClusters(CyNetwork net, int resultId, YoshikoParameterSet params) {
-		mcodeUtil.getCurrentParameters().setParams(params, resultId, net.getSUID());
-		alg = new YoshikoAlgorithm(net.getSUID(), mcodeUtil);
+		yoshikoUtil.getCurrentParameters().setParams(params, resultId, net.getSUID());
+		alg = new YoshikoAlgorithm(net.getSUID(), yoshikoUtil);
 		alg.scoreGraph(net, resultId);
 		
 		return alg.findClusters(net, resultId,"");

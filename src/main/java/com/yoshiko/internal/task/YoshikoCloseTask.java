@@ -9,32 +9,32 @@ import com.yoshiko.internal.util.YoshikoUtil;
 import com.yoshiko.internal.view.YoshikoMainPanel;
 
 /**
- * Closes the main MCODE panel.
+ * Closes the main Yoshiko panel.
  */
 public class YoshikoCloseTask implements Task {
 
 	private final YoshikoCloseAllResultsTask closeAllResultsTask;
 	private final CyServiceRegistrar registrar;
-	private final YoshikoUtil mcodeUtil;
+	private final YoshikoUtil yoshikoUtil;
 	
 	public YoshikoCloseTask(final YoshikoCloseAllResultsTask closeAllResultsTask,
 						  final CyServiceRegistrar registrar,
-			  			  final YoshikoUtil mcodeUtil) {
+			  			  final YoshikoUtil yoshikoUtil) {
 		this.closeAllResultsTask = closeAllResultsTask;
 		this.registrar = registrar;
-		this.mcodeUtil = mcodeUtil;
+		this.yoshikoUtil = yoshikoUtil;
 	}
 
 	@Override
 	public void run(final TaskMonitor taskMonitor) throws Exception {
 		if (closeAllResultsTask == null || closeAllResultsTask.close) {
-			YoshikoMainPanel mainPanel = mcodeUtil.getMainPanel();
+			YoshikoMainPanel mainPanel = yoshikoUtil.getMainPanel();
 
 			if (mainPanel != null) {
 				registrar.unregisterService(mainPanel, CytoPanelComponent.class);
 			}
 
-			mcodeUtil.reset();
+			yoshikoUtil.reset();
 		}
 	}
 

@@ -22,7 +22,7 @@ public class AnalysisCompletedEvent {
 	}
 
 	/**
-	 * Get computed clusters once MCODE has been run.  Will be null if not computed.
+	 * Get computed clusters once Yoshiko has been run.  Will be null if not computed.
 	 * @return
 	 */
 	public List<YoshikoCluster> getClusters() {

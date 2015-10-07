@@ -14,26 +14,26 @@ public class YoshikoAnalyzeTaskFactory implements TaskFactory {
 	private final int analyze;
 	private final int resultId;
 	private final YoshikoAlgorithm alg;
-	private final YoshikoUtil mcodeUtil;
+	private final YoshikoUtil yoshikoUtil;
 	private final AnalysisCompletedListener listener;
 
 	public YoshikoAnalyzeTaskFactory(final CyNetwork network,
 								   final int analyze,
 								   final int resultId,
 								   final YoshikoAlgorithm alg,
-								   final YoshikoUtil mcodeUtil,
+								   final YoshikoUtil yoshikoUtil,
 								   final AnalysisCompletedListener listener) {
 		this.network = network;
 		this.analyze = analyze;
 		this.resultId = resultId;
 		this.alg = alg;
-		this.mcodeUtil = mcodeUtil;
+		this.yoshikoUtil = yoshikoUtil;
 		this.listener = listener;
 	}
 
 	@Override
 	public TaskIterator createTaskIterator() {
-		return new TaskIterator(new YoshikoAnalyzeTask(network, analyze, resultId, alg, mcodeUtil, listener));
+		return new TaskIterator(new YoshikoAnalyzeTask(network, analyze, resultId, alg, yoshikoUtil, listener));
 	}
 
 	@Override

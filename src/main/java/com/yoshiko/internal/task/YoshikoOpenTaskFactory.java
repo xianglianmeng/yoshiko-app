@@ -12,26 +12,26 @@ public class YoshikoOpenTaskFactory implements TaskFactory {
 
 	private final CySwingApplication swingApplication;
 	private final CyServiceRegistrar registrar;
-	private final YoshikoUtil mcodeUtil;
+	private final YoshikoUtil yoshikoUtil;
 	private final YoshikoAnalyzeAction analyzeAction;
 	
 	public YoshikoOpenTaskFactory(final CySwingApplication swingApplication,
 			 					final CyServiceRegistrar registrar,
-			 					final YoshikoUtil mcodeUtil,
+			 					final YoshikoUtil yoshikoUtil,
 			 					final YoshikoAnalyzeAction analyzeAction) {
 		this.swingApplication = swingApplication;
 		this.registrar = registrar;
-		this.mcodeUtil = mcodeUtil;
+		this.yoshikoUtil = yoshikoUtil;
 		this.analyzeAction = analyzeAction;
 	}
 	
 	@Override
 	public TaskIterator createTaskIterator() {
-		return new TaskIterator(new YoshikoOpenTask(swingApplication, registrar, mcodeUtil, analyzeAction));
+		return new TaskIterator(new YoshikoOpenTask(swingApplication, registrar, yoshikoUtil, analyzeAction));
 	}
 
 	@Override
 	public boolean isReady() {
-		return !mcodeUtil.isOpened();
+		return !yoshikoUtil.isOpened();
 	}
 }

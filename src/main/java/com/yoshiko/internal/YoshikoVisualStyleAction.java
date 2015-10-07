@@ -49,11 +49,11 @@ import com.yoshiko.internal.view.YoshikoResultsPanel;
  * * User: Vuk Pavlovic
  * * Date: Jan 4, 2007
  * * Time: 11:30:35 AM
- * * Description: A controller for the MCODE attributes used for visualization
+ * * Description: A controller for the Yoshiko attributes used for visualization
  */
 
 /**
- * A controller for the MCODE attributes used for visualization. Only the onComponentSelected method is
+ * A controller for the Yoshiko attributes used for visualization. Only the onComponentSelected method is
  * used in this listener to determine when a result has been selected.
  */
 public class YoshikoVisualStyleAction extends AbstractYoshikoAction implements CytoPanelComponentSelectedListener {
@@ -61,17 +61,17 @@ public class YoshikoVisualStyleAction extends AbstractYoshikoAction implements C
 	private static final long serialVersionUID = -6884537645922099638L;
 
 	private final VisualMappingManager visualMappingMgr;
-	private final YoshikoUtil mcodeUtil;
+	private final YoshikoUtil yoshikoUtil;
 
 	public YoshikoVisualStyleAction(final String title,
 								  final CyApplicationManager applicationManager,
 								  final CySwingApplication swingApplication,
 								  final CyNetworkViewManager netViewManager,
 								  final VisualMappingManager visualMappingMgr,
-								  final YoshikoUtil mcodeUtil) {
+								  final YoshikoUtil yoshikoUtil) {
 		super(title, applicationManager, swingApplication, netViewManager, ActionEnableSupport.ENABLE_FOR_NETWORK);
 		this.visualMappingMgr = visualMappingMgr;
-		this.mcodeUtil = mcodeUtil;
+		this.yoshikoUtil = yoshikoUtil;
 	}
 
 	@Override
@@ -80,14 +80,14 @@ public class YoshikoVisualStyleAction extends AbstractYoshikoAction implements C
 	}
 
 	/**
-	 * Whenever an MCODE result tab is selected in the east CytoPanel, the MCODE attributes
+	 * Whenever an Yoshiko result tab is selected in the east CytoPanel, the Yoshiko attributes
 	 * have to be rewritten to correspond to that particular result. At the same time the
 	 * Visual Style has to redraw the network given the new attributes.
 	 */
 	@Override
 	public void handleEvent(CytoPanelComponentSelectedEvent event) {
 		// When the user selects a tab in the east cytopanel we want to see if it is a results panel
-		// and if it is we want to re-draw the network with the MCODE visual style and reselect the
+		// and if it is we want to re-draw the network with the Yoshiko visual style and reselect the
 		// cluster that may be selected in the results panel
 		Component component = event.getCytoPanel().getSelectedComponent();
 
@@ -107,9 +107,9 @@ public class YoshikoVisualStyleAction extends AbstractYoshikoAction implements C
 //			}
 			
 			// Get the updated app's style
-			VisualStyle appStyle = mcodeUtil.getAppStyle(maxScore);
+			VisualStyle appStyle = yoshikoUtil.getAppStyle(maxScore);
 			// Register the app's style but don't make it active by default
-			mcodeUtil.registerVisualStyle(appStyle);
+			yoshikoUtil.registerVisualStyle(appStyle);
 
 			// Update the network view if there is one and it is using the app's style
 			CyNetworkView netView = resultsPanel.getNetworkView();

@@ -64,11 +64,11 @@ import com.yoshiko.internal.util.YoshikoUtil;
  * * User: Gary Bader
  * * Date: Jul 9, 2004
  * * Time: 11:57:55 AM
- * * Description  JUnit testing for MCODE
+ * * Description  JUnit testing for Yoshiko
  */
 
 /**
- * Test for the MCODE algorithm
+ * Test for the Yoshiko algorithm
  */
 public class YoshikoAlgorithmTest extends AbstractYoshikoTest {
 
@@ -97,20 +97,20 @@ public class YoshikoAlgorithmTest extends AbstractYoshikoTest {
 		rootNetMgr = netViewTestSupport.getRootNetworkFactory();
 		netViewFactory = netViewTestSupport.getNetworkViewFactory();
 		
-		mcodeUtil = new YoshikoUtil(rendererFactory, netViewFactory, rootNetMgr, appMgr, netMgr, netViewMgr,
+		yoshikoUtil = new YoshikoUtil(rendererFactory, netViewFactory, rootNetMgr, appMgr, netMgr, netViewMgr,
 				styleFactory, vmMgr, swingApp, evtHelper, vmfFactory, vmfFactory, fileUtil);
 		//networkSmall = Cytoscape.createNetworkFromFile("testData" + File.separator + "smallTest.sif");
 	}
 
 	/**
-	 * Run MCODE on a small test network with some default parameters
+	 * Run Yoshiko on a small test network with some default parameters
 	 */
 	@Test
-	public void testMCODEAlgorithmSmall() {
+	public void testYoshikoAlgorithmSmall() {
 		// TODO
-//		params.setAllAlgorithmParams(MCODEParameterSet.NETWORK, null, false, 2, 2, false, 100, 0.2, false, true, 0.1);
+//		params.setAllAlgorithmParams(YoshikoParameterSet.NETWORK, null, false, 2, 2, false, 100, 0.2, false, true, 0.1);
 //		alg.scoreGraph(networkSmall, 1);
-//		MCODECluster[] clusters = alg.findClusters(networkSmall, 1);
+//		YoshikoCluster[] clusters = alg.findClusters(networkSmall, 1);
 //
 //		assertEquals(clusters.length, 1);
 //		double score = alg.scoreCluster(clusters[0]);

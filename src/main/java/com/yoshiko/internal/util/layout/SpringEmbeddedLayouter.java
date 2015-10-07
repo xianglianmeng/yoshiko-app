@@ -26,7 +26,7 @@ import com.yoshiko.internal.view.YoshikoLoader;
  * Note 1: this was copied from giny.util because it is being phased out.  Eventually
  * the layout API will be available to use (TODO: remove layouter when layout API is available)
  * Note 2: this has been modified so that the doLayout method is interruptable and
- * reports progress to the MCODELoader
+ * reports progress to the YoshikoLoader
  *  */
 public class SpringEmbeddedLayouter {
 
@@ -99,8 +99,8 @@ public class SpringEmbeddedLayouter {
 	/**
 	 * Performs the layout of nodes.
 	 *
-	 * @param weightLayout Weighting of this process as calculated by MCODEUtil.convertNetworkToImage
-	 * @param goalTotal Numerical aim as calculated by MCODEUtil.convertNetworkToImage based on number of processes required
+	 * @param weightLayout Weighting of this process as calculated by YoshikoUtil.convertNetworkToImage
+	 * @param goalTotal Numerical aim as calculated by YoshikoUtil.convertNetworkToImage based on number of processes required
 	 * @param progress Amount of work completed in finding the cluster before this process started
 	 * @param loader Loading animation which displays the progress of this process
 	 * @return true if the layout was completed without interruption, false otherwise
@@ -178,7 +178,7 @@ public class SpringEmbeddedLayouter {
 		} // End for each layout pass
 
 		// Just in case an interruption occured right before we exit the method, we reset it, such an interruption
-		// will be dealt with in the MCODEUtil class
+		// will be dealt with in the YoshikoUtil class
 		resetDoLayout();
 
 		return true;

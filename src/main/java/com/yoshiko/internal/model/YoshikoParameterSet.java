@@ -33,11 +33,11 @@ package com.yoshiko.internal.model;
  ** User: Gary Bader
  ** Date: Jan 26, 2004
  ** Time: 2:44:30 PM
- ** Description: Stores an MCODE parameter set
+ ** Description: Stores an Yoshiko parameter set
  **/
 
 /**
- * Stores an MCODE parameter set
+ * Stores an Yoshiko parameter set
  */
 public class YoshikoParameterSet {
 

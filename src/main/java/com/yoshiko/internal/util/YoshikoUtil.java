@@ -135,12 +135,12 @@ import com.yoshiko.internal.view.YoshikoResultsPanel;
  * * User: Gary Bader
  * * Date: Jun 25, 2004
  * * Time: 7:00:13 PM
- * * Description: Utilities for MCODE
+ * * Description: Utilities for Yoshiko
  */
 
 // TODO refactor: remove circular dependencies
 /**
- * Utilities for MCODE
+ * Utilities for Yoshiko
  */
 public class YoshikoUtil {
 
@@ -329,7 +329,7 @@ public class YoshikoUtil {
 	}
 
 	/**
-	 * Convert a network to an image.  This is used by the MCODEResultsPanel.
+	 * Convert a network to an image.  This is used by the YoshikoResultsPanel.
 	 * 
 	 * @param cluster Input network to convert to an image
 	 * @param height  Height that the resulting image should be
@@ -383,7 +383,7 @@ public class YoshikoUtil {
 			final double x;
 			final double y;
 
-			// First we check if the MCODECluster already has a node view of this node (posing the more generic condition
+			// First we check if the YoshikoCluster already has a node view of this node (posing the more generic condition
 			// first prevents the program from throwing a null pointer exception in the second condition)
 			if (cluster.getView() != null && cluster.getView().getNodeView(nv.getModel()) != null) {
 				//If it does, then we take the layout position that was already generated for it
@@ -516,7 +516,7 @@ public class YoshikoUtil {
 			}
 		}
 
-		final YoshikoGraph graph = new YoshikoGraph(net, nodes, edges, this); // TODO remove circular dependency MCODEUtil/MCODEGraph
+		final YoshikoGraph graph = new YoshikoGraph(net, nodes, edges, this); // TODO remove circular dependency YoshikoUtil/YoshikoGraph
 
 		return graph;
 	}
@@ -643,7 +643,7 @@ public class YoshikoUtil {
 		nodeColorCm.addPoint(0.0, new BoundaryRangeValues<Paint>(Color.WHITE, Color.WHITE, MIN_COLOR));
 		// Now we state that anything anything below the max score will fade into red from the lower boundary color
 		// and everything equal or greater than the max (never occurs since this is the upper boundary) will be red
-		// The max value is set by MCODEVisualStyleAction based on the current result set's max score
+		// The max value is set by YoshikoVisualStyleAction based on the current result set's max score
 		nodeColorCm.addPoint(maxScore, new BoundaryRangeValues<Paint>(MAX_COLOR, MAX_COLOR, MAX_COLOR));
 
 		appStyle.addVisualMappingFunction(nodeColorCm);
@@ -734,9 +734,9 @@ public class YoshikoUtil {
 	}
 
 	/**
-	 * Sorts a list of MCODE generated clusters by the score.
+	 * Sorts a list of Yoshiko generated clusters by the score.
 	 *
-	 * @param clusters   List of MCODE generated clusters
+	 * @param clusters   List of Yoshiko generated clusters
 	 */
 	public void sortClusters(final List<YoshikoCluster> clusters) {
 		Collections.sort(clusters, new Comparator<YoshikoCluster>() {
@@ -780,7 +780,7 @@ public class YoshikoUtil {
 	}
 
 	/**
-	 * Save MCODE results to a file
+	 * Save Yoshiko results to a file
 	 *
 	 * @param alg       The algorithm instance containing parameters, etc.
 	 * @param clusters  The list of clusters
@@ -798,7 +798,7 @@ public class YoshikoUtil {
 		FileWriter fout = null;
 
 		try {
-			// Call save method in MCODE get the file name
+			// Call save method in Yoshiko get the file name
 			Collection<FileChooserFilter> filters = new ArrayList<FileChooserFilter>();
 			filters.add(new FileChooserFilter("Text format", "txt"));
 			File file = fileUtil.getFile(swingApplication.getJFrame(),
