@@ -19,16 +19,16 @@ import com.yoshiko.internal.view.YoshikoResultsPanel;
  */
 public class YoshikoCloseAllResultsTask implements Task {
 
-	@Tunable(description = "<html>You are about to close the MCODE app.<br />Do you want to continue?</html>", params="ForceSetDirectly=true")
+	@Tunable(description = "<html>You are about to close the Yoshiko app.<br />Do you want to continue?</html>", params="ForceSetDirectly=true")
 	public boolean close = true;
 	
 	private final CySwingApplication swingApplication;
-	private final YoshikoUtil mcodeUtil;
+	private final YoshikoUtil yoshikoUtil;
 	
 	public YoshikoCloseAllResultsTask(final CySwingApplication swingApplication,
-						  			final YoshikoUtil mcodeUtil) {
+						  			final YoshikoUtil yoshikoUtil) {
 		this.swingApplication = swingApplication;
-		this.mcodeUtil = mcodeUtil;
+		this.yoshikoUtil = yoshikoUtil;
 	}
 
 	@ProvidesTitle
@@ -39,7 +39,7 @@ public class YoshikoCloseAllResultsTask implements Task {
 	@Override
 	public void run(final TaskMonitor taskMonitor) throws Exception {
 		if (close) {
-			final Collection<YoshikoResultsPanel> resultPanels = mcodeUtil.getResultPanels();
+			final Collection<YoshikoResultsPanel> resultPanels = yoshikoUtil.getResultPanels();
 			
 			for (YoshikoResultsPanel panel : resultPanels) {
 				panel.discard(false);
