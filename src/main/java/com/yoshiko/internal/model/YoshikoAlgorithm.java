@@ -391,7 +391,7 @@ public class YoshikoAlgorithm {
 		
 		YoshikoClustersReader ytr = new YoshikoClustersReader();//YoshikoTableReader ytr = new YoshikoTableReader();
 		List<List<Long>> clusters = ytr.getClusters(inputNetwork,clusterStr);//List<List<Long>> clusters = ytr.getClusters(inputNetwork, params.getOutput()+"_0.txt");
-		int ranks = 0;
+		int module = 0;
 		for(List<Long> alCluster : clusters) {
 			currentNode = alCluster.get(0);
 			Map<Long, Boolean> nodeSeenHashMapSnapShot = new HashMap<Long, Boolean>(nodeSeenHashMap);
@@ -402,10 +402,10 @@ public class YoshikoAlgorithm {
 					clusterGraph = createClusterGraph(alCluster, inputNetwork);
 					final double score = scoreCluster(clusterGraph);
 					
-					YoshikoCluster currentCluster = new YoshikoCluster(resultId, currentNode, clusterGraph, score,
+					YoshikoCluster currentCluster = new YoshikoCluster(resultId, currentNode, clusterGraph, 
 							alCluster, nodeSeenHashMapSnapShot);
-					currentCluster.setRank(ranks);
-					ranks++;
+					currentCluster.setModule(module);
+					module++;
 					
 					alClusters.add(currentCluster);
 				//}
@@ -502,11 +502,11 @@ public class YoshikoAlgorithm {
 			fluffClusterBoundary(alCluster, nodeSeenHashMap, nodeInfoHashMap);
 
 		clusterGraph = createClusterGraph(alCluster, inputNet);
-		final double score = scoreCluster(clusterGraph);
+		//final double score = scoreCluster(clusterGraph);
 		
-		final YoshikoCluster newCluster = new YoshikoCluster(resultId, seedNode, clusterGraph, score, alCluster,
+		final YoshikoCluster newCluster = new YoshikoCluster(resultId, seedNode, clusterGraph, alCluster,
 				nodeSeenHashMap);
-		newCluster.setRank(cluster.getRank());
+		newCluster.setModule(cluster.getModule());
 		
 		return newCluster;
 	}

@@ -54,16 +54,14 @@ public class YoshikoCluster {
 	private List<Long> alCluster;
 	private CyNetworkView view; // keeps track of layout so that layout process doesn't have to be repeated unnecessarily
 	private Map<Long, Boolean> nodeSeenHashMap; // stores the nodes that have already been included in higher ranking clusters
-	private double score;
 	private String name; // pretty much unused so far, but could store name by user's input
-	private int rank;
+	private int module;
 	private Image image;
 	private boolean disposed;
 
 	public YoshikoCluster(final int resultId,
 						final Long seedNode,
 						final YoshikoGraph graph,
-						final double score,
 						final List<Long> alCluster,
 						final Map<Long, Boolean> nodeSeenHashMap) {
 		assert seedNode != null;
@@ -74,7 +72,6 @@ public class YoshikoCluster {
 		this.resultId = resultId;
 		this.seedNode = seedNode;
 		this.graph = graph;
-		this.score = score;
 		this.alCluster = alCluster;
 		this.nodeSeenHashMap = nodeSeenHashMap;
 	}
@@ -113,10 +110,6 @@ public class YoshikoCluster {
 		return graph.getSubNetwork();
 	}
 
-	public double getScore() {
-		return score;
-	}
-
 	public List<Long> getALCluster() {
 		return alCluster;
 	}
@@ -129,13 +122,13 @@ public class YoshikoCluster {
 		return nodeSeenHashMap;
 	}
 
-	public int getRank() {
-		return rank;
+	public int getModule() {
+		return module;
 	}
 
-	public void setRank(int rank) {
-		this.rank = rank;
-		this.name = "Cluster " + (rank + 1);
+	public void setModule(int module) {
+		this.module = module;
+		this.name = "Cluster " + (module + 1);
 	}
 	
 	public synchronized Image getImage() {
@@ -163,8 +156,7 @@ public class YoshikoCluster {
 
 	@Override
 	public String toString() {
-		return "YoshikoCluster [clusterName=" + name + ", clusterScore=" + score + 
-				", rank=" + rank + ", resultId=" + resultId + ", disposed=" + disposed + "]";
+		return "YoshikoCluster [clusterName=" + name + ", module=" + module + ", resultId=" + resultId + ", disposed=" + disposed + "]";
 	}
 	
 	@Override

@@ -437,14 +437,14 @@ public class YoshikoResultsPanel extends JPanel implements CytoPanelComponent {
 	private static StringBuffer getClusterDetails(final YoshikoCluster cluster) {
 		StringBuffer details = new StringBuffer();
 
-		details.append("Rank: ");
-		details.append(String.valueOf(cluster.getRank() + 1));
+		details.append("Module: ");
+		details.append(String.valueOf(cluster.getModule() + 1));
 
-		details.append("\n");
+		/*details.append("\n");
 		details.append("Score: ");
 		NumberFormat nf = NumberFormat.getInstance();
 		nf.setMaximumFractionDigits(3);
-		details.append(nf.format(cluster.getScore()));
+		details.append(nf.format(cluster.getScore()));*/
 
 		details.append("\n");
 		details.append("Nodes: ");
@@ -480,8 +480,7 @@ public class YoshikoResultsPanel extends JPanel implements CytoPanelComponent {
 			nf.setMaximumFractionDigits(3);
 			final YoshikoCluster cluster = clusters.get(selectedRow);
 			final CyNetwork clusterNetwork = cluster.getNetwork();
-			final String title = trigger.getResultId() + ": " + cluster.getName() + " (Score: " +
-								 nf.format(cluster.getScore()) + ")";
+			final String title = trigger.getResultId() + ": " + cluster.getName();
 			// Create the child network and view
 			final SwingWorker<CyNetworkView, ?> worker = new SwingWorker<CyNetworkView, Object>() {
 
@@ -563,7 +562,7 @@ public class YoshikoResultsPanel extends JPanel implements CytoPanelComponent {
 		public YoshikoClusterBrowserPanel() {
 			super();
 			setLayout(new BorderLayout());
-			setBorder(BorderFactory.createTitledBorder("Cluster Browser"));
+			setBorder(BorderFactory.createTitledBorder("Module Browser"));
 
 			// main data table
 			browserModel = new YoshikoResultsPanel.YoshikoClusterBrowserTableModel();
@@ -620,7 +619,7 @@ public class YoshikoResultsPanel extends JPanel implements CytoPanelComponent {
 
 			for (int i = 0; i < clusters.size(); i++) {
 				final YoshikoCluster c = clusters.get(i);
-				c.setRank(i);
+				c.setModule(i);
 				StringBuffer details = getClusterDetails(c);
 				data[i][1] = new StringBuffer(details);
 
@@ -924,7 +923,7 @@ public class YoshikoResultsPanel extends JPanel implements CytoPanelComponent {
 				if (c.getName() != null) {
 					title = title + c.getName();
 				} else {
-					title = title + "Cluster " + (selectedRow + 1);
+					title = title + "Module " + (selectedRow + 1);
 				}
 
 				explorePanel.setTitleComponentText(title);
@@ -1212,7 +1211,7 @@ public class YoshikoResultsPanel extends JPanel implements CytoPanelComponent {
 							clusterSelected = true;
 							cluster.setImage(image);
 							// Update the table
-							clusterBrowserPanel.update(new ImageIcon(image), cluster.getRank());
+							clusterBrowserPanel.update(new ImageIcon(image), cluster.getModule());
 							drawGraph = false;
 						}
 
@@ -1223,7 +1222,7 @@ public class YoshikoResultsPanel extends JPanel implements CytoPanelComponent {
 						Image image = yoshikoUtil.getPlaceHolderImage(graphPicSize, graphPicSize);
 						cluster.setImage(image);
 						// Update the table
-						clusterBrowserPanel.update(new ImageIcon(image), cluster.getRank());
+						clusterBrowserPanel.update(new ImageIcon(image), cluster.getModule());
 						// select the cluster
 						selectCluster(cluster.getNetwork());
 						drawGraph = false;

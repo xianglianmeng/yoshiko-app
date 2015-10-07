@@ -743,8 +743,8 @@ public class YoshikoUtil {
 			@Override
 			public int compare(YoshikoCluster c1, YoshikoCluster c2) {
 				//sorting clusters by decreasing score
-				double d1 = c1.getScore();
-				double d2 = c2.getScore();
+				double d1 = c1.getNetwork().getNodeCount();
+				double d2 = c2.getNetwork().getNodeCount();
 				
 				if (d1 == d2)     return 0;
 				else if (d1 < d2) return 1;
@@ -824,7 +824,7 @@ public class YoshikoUtil {
 					fout.write((i + 1) + "\t"); //rank
 					NumberFormat nf = NumberFormat.getInstance();
 					nf.setMaximumFractionDigits(3);
-					fout.write(nf.format(c.getScore()) + "\t");
+					//fout.write(nf.format(c.getScore()) + "\t");
 					// cluster size - format: (# prot, # intx)
 					fout.write(clusterNetwork.getNodeCount() + "\t");
 					fout.write(clusterNetwork.getEdgeCount() + "\t");
