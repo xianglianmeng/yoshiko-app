@@ -128,7 +128,7 @@ public class YoshikoCluster {
 
 	public void setModule(int module) {
 		this.module = module;
-		this.name = "Cluster " + (module + 1);
+		this.name = "Module " + (module + 1);
 	}
 	
 	public synchronized Image getImage() {
